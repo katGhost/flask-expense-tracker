@@ -500,7 +500,7 @@ def delete(expense_id):
   return redirect("/expenses")
 
 # Edit expense route
-@app.route("/edit-expense/<int:expense_id>", methods=["GET", "POST"])
+@app.route("/edit-expense/<int:expense_id>", methods=["GET", "POST", "PUT"])
 @login_required
 def edit_expense(expense_id):
   user_id = session.get("user_id")
