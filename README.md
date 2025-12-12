@@ -2,9 +2,7 @@
 
   A personal expense tracker Flask application
 
-## 2. Video Demo !([submission](https://youtu.be/QUKUnyySQqQ))
-
-### 3. Description
+## 3. Description
 
   Meant for those tired of receit tracking and all the tedious calculations. Expense Tracker helps users view and manage their expenses such as where and how they spend most of their income, set budget limits for certain expenses and/or needs, see how much from the budget limit is already spent, and be able to view the entire data represented by charts.
 
