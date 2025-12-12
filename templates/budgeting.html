@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block title %} Budgeting {% endblock %}
+
+{% block main %}
+  <div class="main-container">
+    <div class="budget-container">
+      <form action="/api/add_budget" method="POST">
+        <div class="mb-3">
+          <input autocomplete="off" id="category" name="category" type="text" placeholder="Category Name" class="form-control mx-auto custom-width-input">
+        </div>
+        <div class="mb-3">
+          <input autocomplete="off" id="month" name="month" type="number" placeholder="Month" class="form-control mx-auto custom-width-input">
+        </div>
+        <div class="mb-3">
+          <input autocomplete="off" id="year" name="year" type="number" placeholder="Year" class="form-control mx-auto custom-width-input">
+        </div>
+        <div class="mb-3">
+          <input autocomplete="off" id="budget-limit" name="budget-limit" type="number" placeholder="Budget Limit" class="form-control mx-auto custom-width-input">
+        </div>
+        <div class="mb-4">
+          <button name="save-budget" id="set-budget" value="save-budget">Set Budget</button>
+        </div>
+      </form>
+    </div>
+    <div class="mt-4 budget-set-container">
+      <div class="table-reponsive">
+        <table id="data" class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>Name</th>
+              <th>Month</th>
+              <th>Year</th>
+              <th>Budget Limit</th>
+              <th>Total Spent</th>
+              <th>Remaining</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+
+  <script>
+    $(document).ready(function() {
+      //let table = new DataTable('#data')
+      //console.log(table)
+      let table = $("#data").DataTable({
+        processing: true,
+        serverSide: false,
+        ajax: {
+          url: "/api/add_budget",
+          type: "GET",
+        },
+        columns: [
+          {data: "id"},
+          {data: "name"},
+          {data: "month"},
+          {data: "year"},
+          {data: "budget_limit"},
+          {data: "total_spent"},
+          {data: "remaining"}
+        ]
+      });
+
+      // Handle budget submission
+      $("#set-budget").on("click", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: "/api/add_budget",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({
+            category: $("#category").val(),
+            month: $("#month").val(),
+            year: $("#year").val(),
+            budget_limit: $("#budget-limit").val(),
+          }),
+          success: function (response) {
+            if (response.success) {
+              table.ajax.reload(null, false); // refresh table without resetting pagination
+              alert("Budget saved successfully!");
+            } else {
+              alert(response.message || "Error saving budget");
+            }
+          },
+          error: function (xhr) {
+            alert(xhr.responseJSON?.error || xhr.responseJSON?.message || "Server error");
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}

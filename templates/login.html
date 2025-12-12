@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Login
+{% endblock %}
+
+{% block main %}
+
+<div class="login-container">
+  <div class="login-content">
+    <h1 class="content-title">
+      Join the rest of the community around the world and save money.
+    </h1>
+  </div>
+  <!-- Form submission -->
+  <div class="login">
+    <h3 class="mb-5">Login</h3>
+    <form action="/login" method="POST">
+      <div class="mb-4">
+        <input type="text" autocomplete="off" autofocus class="form-control mx-auto custom-login-input" name="email" placeholder="Email">
+      </div>
+      <div class="mb-4">
+        <input type="password" autocomplete="off" class="form-control mx-auto custom-login-input" name="password" placeholder="Password">
+      </div>
+
+      <!-- Buttons to save entered information -->
+      <div class="d-flex gap-3 mb3 mt-4">
+        <!-- Save draft btn: saves to pdf file, Save btn: saves to history-->
+        <button type="submit" name="action" value="login" class="login-btn">
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+  
+
+  
+{% endblock %}

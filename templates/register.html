@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %} Sign up {% endblock %}
+
+{% block main %}
+  <div class="register-container">
+    <div class="register-content">
+      <h1 class="content-title">
+        Join the rest of the community around the world and save money.
+      </h1>
+    </div>
+    <div class="register">
+      <h2 class="mb-4">Create an Account</h2>
+      <form action="/register" method="POST">
+        <div class="mb-3">
+          <label for="email">Email:</label>
+          <input type="text" id="email" name="email" placeholder="Email" class="form-control mx-auto custom-login-input" required>
+        </div>
+        <div class="mb-3">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" placeholder="Password" class="form-control mx-auto custom-login-input" required>
+        </div>
+        <div class="mb-3">
+          <label for="password">Confirm password:</label>
+          <input type="password" id="password" name="confirm-password" placeholder="Confirm password" class="form-control mx-auto custom-login-input" required>
+        </div>
+        <div class="mb-4">
+          <button type="submit" action="register" value="register" class="register-btn">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block main %}
+
+  <div class="main-container">
+    <div class="user-info-header">
+      <h3 class="mb-3">Edit Profile</h3>
+    </div>
+
+    <!-- Left -->
+    <div class="mb-4 profile-container">
+      <div class="form-container">
+        <form action="/profile" method="POST">
+          <div class="mb-3">
+            <label class="form-label">Income<span class="text-danger">*</span></label>
+            <input autocomplete="off" autofocus class="form-control mx-auto custom-width-input" name="income" placeholder="Income" type="number" step="0.01">
+          </div>
+          <div class="mb-4">
+            <button name="action" class="save-income" id="add-income" value="save-income">Save Income</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right -->
+      <div class="user-container">
+        {% for user in users %}
+          {% if user.id == session["user_id"] %}
+            <div class="mb-3 user-info">
+              <p class="fw-bold label">Email:</p>
+              <span class="email-value">{{user.email}}</span>
+            </div>
+            <div class="mb-3 user-info">
+              <p class="fw-bold label">Date:</p>
+              <span class="date-value">{{date}}</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        <div class="mb-3 user-info">
+          <p class="fw-bold label">Income:</p>
+          <span class="income-value">{{user_income.income_value}}</span>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+  <script>
+    /*$("#add-income").on("click", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        url: "/profile",
+        type: "POST"
+
+      })
+    })*/
+  </script>
+
+{% endblock %}
