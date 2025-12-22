@@ -3,97 +3,154 @@
 {% block title %} Budgeting {% endblock %}
 
 {% block main %}
-  <div class="main-container">
-    <div class="budget-container">
-      <form action="/api/add_budget" method="POST">
-        <div class="mb-3">
-          <input autocomplete="off" id="category" name="category" type="text" placeholder="Category Name" class="form-control mx-auto custom-width-input">
-        </div>
-        <div class="mb-3">
-          <input autocomplete="off" id="month" name="month" type="number" placeholder="Month" class="form-control mx-auto custom-width-input">
-        </div>
-        <div class="mb-3">
-          <input autocomplete="off" id="year" name="year" type="number" placeholder="Year" class="form-control mx-auto custom-width-input">
-        </div>
-        <div class="mb-3">
-          <input autocomplete="off" id="budget-limit" name="budget-limit" type="number" placeholder="Budget Limit" class="form-control mx-auto custom-width-input">
-        </div>
-        <div class="mb-4">
-          <button name="save-budget" id="set-budget" value="save-budget">Set Budget</button>
-        </div>
-      </form>
-    </div>
-    <div class="mt-4 budget-set-container">
-      <div class="table-reponsive">
-        <table id="data" class="table table-striped table-hover table-bordered">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>Name</th>
-              <th>Month</th>
-              <th>Year</th>
-              <th>Budget Limit</th>
-              <th>Total Spent</th>
-              <th>Remaining</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
+<div class="w-full max-w-7xl mx-auto px-4 py-6">
+
+  <!-- Page Title -->
+  <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
+    Budgeting
+  </h3>
+
+  <!-- Budget Form -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8 max-w-xl">
+    <form action="/api/add_budget" method="POST" class="space-y-4">
+
+      <input
+        autocomplete="off"
+        id="category"
+        name="category"
+        type="text"
+        placeholder="Category Name"
+        class="w-full rounded-md border border-gray-300 dark:border-gray-600
+               bg-white dark:bg-gray-700
+               text-gray-900 dark:text-gray-100
+               px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+      >
+
+      <input
+        autocomplete="off"
+        id="month"
+        name="month"
+        type="number"
+        placeholder="Month"
+        class="w-full rounded-md border border-gray-300 dark:border-gray-600
+               bg-white dark:bg-gray-700
+               text-gray-900 dark:text-gray-100
+               px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+      >
+
+      <input
+        autocomplete="off"
+        id="year"
+        name="year"
+        type="number"
+        placeholder="Year"
+        class="w-full rounded-md border border-gray-300 dark:border-gray-600
+               bg-white dark:bg-gray-700
+               text-gray-900 dark:text-gray-100
+               px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+      >
+
+      <input
+        autocomplete="off"
+        id="budget-limit"
+        name="budget-limit"
+        type="number"
+        placeholder="Budget Limit"
+        class="w-full rounded-md border border-gray-300 dark:border-gray-600
+               bg-white dark:bg-gray-700
+               text-gray-900 dark:text-gray-100
+               px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+      >
+
+      <button
+        id="set-budget"
+        name="save-budget"
+        value="save-budget"
+        class="w-full bg-gradient-to-br from-green-400 to-emerald-600
+               text-white font-semibold py-2 rounded-md
+               hover:from-green-500 hover:to-emerald-700
+               transition"
+      >
+        Set Budget
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Budget Table -->
+  <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+    <div class="overflow-x-auto">
+      <table
+        id="data"
+        class="w-full text-sm text-left border-collapse"
+      >
+        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Name</th>
+            <th class="px-4 py-2">Month</th>
+            <th class="px-4 py-2">Year</th>
+            <th class="px-4 py-2">Budget Limit</th>
+            <th class="px-4 py-2">Total Spent</th>
+            <th class="px-4 py-2">Remaining</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+          <!-- DataTables injects rows here -->
+        </tbody>
+      </table>
     </div>
   </div>
-  
 
-  <script>
-    $(document).ready(function() {
-      //let table = new DataTable('#data')
-      //console.log(table)
-      let table = $("#data").DataTable({
-        processing: true,
-        serverSide: false,
-        ajax: {
-          url: "/api/add_budget",
-          type: "GET",
-        },
-        columns: [
-          {data: "id"},
-          {data: "name"},
-          {data: "month"},
-          {data: "year"},
-          {data: "budget_limit"},
-          {data: "total_spent"},
-          {data: "remaining"}
-        ]
-      });
+</div>
 
-      // Handle budget submission
-      $("#set-budget").on("click", function (e) {
-        e.preventDefault();
+<!-- Script stays the same -->
+<script>
+  $(document).ready(function() {
+    let table = $("#data").DataTable({
+      processing: true,
+      serverSide: false,
+      ajax: {
+        url: "/api/add_budget",
+        type: "GET",
+      },
+      columns: [
+        { data: "id" },
+        { data: "name" },
+        { data: "month" },
+        { data: "year" },
+        { data: "budget_limit" },
+        { data: "total_spent" },
+        { data: "remaining" }
+      ]
+    });
 
-        $.ajax({
-          url: "/api/add_budget",
-          type: "POST",
-          contentType: "application/json",
-          data: JSON.stringify({
-            category: $("#category").val(),
-            month: $("#month").val(),
-            year: $("#year").val(),
-            budget_limit: $("#budget-limit").val(),
-          }),
-          success: function (response) {
-            if (response.success) {
-              table.ajax.reload(null, false); // refresh table without resetting pagination
-              alert("Budget saved successfully!");
-            } else {
-              alert(response.message || "Error saving budget");
-            }
-          },
-          error: function (xhr) {
-            alert(xhr.responseJSON?.error || xhr.responseJSON?.message || "Server error");
+    $("#set-budget").on("click", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        url: "/api/add_budget",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+          category: $("#category").val(),
+          month: $("#month").val(),
+          year: $("#year").val(),
+          budget_limit: $("#budget-limit").val(),
+        }),
+        success: function (response) {
+          if (response.success) {
+            table.ajax.reload(null, false);
+            alert("Budget saved successfully!");
+          } else {
+            alert(response.message || "Error saving budget");
           }
-        });
+        },
+        error: function (xhr) {
+          alert(xhr.responseJSON?.error || xhr.responseJSON?.message || "Server error");
+        }
       });
     });
-  </script>
+  });
+</script>
 {% endblock %}
