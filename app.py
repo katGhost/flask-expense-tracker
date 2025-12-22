@@ -666,7 +666,7 @@ def inject_theme():
 def logout():
   session.clear()
   # redirect to login page
-  return render_template("login.html")
+  return render_template("logout.html")
 
 @app.context_processor
 def inject_now():
