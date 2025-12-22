@@ -1,17 +1,4 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  .nav-link {
-    @apply text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-500;
-  }
-
-  .mobile-nav-link {
-    @apply block rounded-md px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800;
-  }
-}
 /* Light-Mode and Dark-Mode */
 
 :root {
@@ -39,6 +26,7 @@ html.dark-mode {
 }
 
 body {
+  background: var(--bg-color);
   color: var(--text-color);
 }
 
