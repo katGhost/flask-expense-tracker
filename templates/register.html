@@ -1,32 +1,44 @@
 {% extends "layout.html" %}
 
-{% block title %} Sign up {% endblock %}
+{% block title %}
+  Sign up
+{% endblock %}
 
 {% block main %}
-  <div class="register-container">
-    <div class="register-content">
-      <h1 class="content-title">
-        Join the rest of the community around the world and save money.
-      </h1>
+  <div class="w-full max-w-sm mx-auto px-4 py-6">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-semibold text-gray-900 dark:text-gray-100">Join the rest of the community around the world and save money.</h1>
     </div>
-    <div class="register">
-      <h2 class="mb-4">Create an Account</h2>
+
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Create an Account</h2>
       <form action="/register" method="POST">
+
+        <!-- Email -->
         <div class="mb-3">
-          <label for="email">Email:</label>
-          <input type="text" id="email" name="email" placeholder="Email" class="form-control mx-auto custom-login-input" required>
+          <label for="email" class="block text-gray-700 dark:text-gray-200">Email:</label>
+          <input type="text" id="email" name="email" placeholder="Email" class="form-input w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-md p-3" required>
         </div>
+
+        <!-- Password -->
         <div class="mb-3">
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" placeholder="Password" class="form-control mx-auto custom-login-input" required>
+          <label for="password" class="block text-gray-700 dark:text-gray-200">Password:</label>
+          <input type="password" id="password" name="password" placeholder="Password" class="form-input w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-md p-3" required>
         </div>
+
+        <!-- Confirm Password -->
         <div class="mb-3">
-          <label for="password">Confirm password:</label>
-          <input type="password" id="password" name="confirm-password" placeholder="Confirm password" class="form-control mx-auto custom-login-input" required>
+          <label for="confirm-password" class="block text-gray-700 dark:text-gray-200">Confirm Password:</label>
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm password" class="form-input w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-md p-3" required>
         </div>
+
+        <!-- Submit Button -->
         <div class="mb-4">
-          <button type="submit" action="register" value="register" class="register-btn">Sign up</button>
+          <button type="submit" name="action" value="register" class="w-full py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
+            Sign up
+          </button>
         </div>
+
       </form>
     </div>
   </div>

@@ -5,35 +5,33 @@
 {% endblock %}
 
 {% block main %}
+  <div class="w-full max-w-sm mx-auto px-4 py-6">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-semibold text-gray-900 dark:text-gray-100">Join the rest of the community around the world and save money.</h1>
+    </div>
 
-<div class="login-container">
-  <div class="login-content">
-    <h1 class="content-title">
-      Join the rest of the community around the world and save money.
-    </h1>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      <h3 class="text-xl font-semibold mb-5 text-gray-900 dark:text-gray-100">Login</h3>
+      <form action="/login" method="POST">
+
+        <!-- Email -->
+        <div class="mb-4">
+          <input type="text" autocomplete="off" autofocus class="form-input w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-md p-3" name="email" placeholder="Email">
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <input type="password" autocomplete="off" class="form-input w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-md p-3" name="password" placeholder="Password">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex gap-3 mb-4">
+          <button type="submit" name="action" value="login" class="w-full py-3 bg-green-500 text-white rounded-md hover:bg-blue-600 transition">
+            Login
+          </button>
+        </div>
+        
+      </form>
+    </div>
   </div>
-  <!-- Form submission -->
-  <div class="login">
-    <h3 class="mb-5">Login</h3>
-    <form action="/login" method="POST">
-      <div class="mb-4">
-        <input type="text" autocomplete="off" autofocus class="form-control mx-auto custom-login-input" name="email" placeholder="Email">
-      </div>
-      <div class="mb-4">
-        <input type="password" autocomplete="off" class="form-control mx-auto custom-login-input" name="password" placeholder="Password">
-      </div>
-
-      <!-- Buttons to save entered information -->
-      <div class="d-flex gap-3 mb3 mt-4">
-        <!-- Save draft btn: saves to pdf file, Save btn: saves to history-->
-        <button type="submit" name="action" value="login" class="login-btn">
-          Login
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-  
-
-  
 {% endblock %}
