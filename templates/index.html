@@ -3,88 +3,79 @@
 {% block title %} Home {% endblock %}
 
 {% block main %}
-<div class="main-container">
-  <h3 class="mb-3 text-fg-brand">Overview</h3>
-  <div class="mb-3 top">
-    <!-- latest budget entered and some details about it -->
-    <div class="rounded-md bg-gradient-to-br from-green-400 to-emerald-600 p-6 text-gray-900 shadow-md dark:text-gray-100 summary">
-      <h5 class="summary-title">Recent Expense</h5>
-      <p class="summary-desc">
-        Recently created for the current month.
-      </p>
-      <span class="fw-bold amount-summary">{{expense.amount}}</span> | <span class="date_summary">{{expense.created_at}}</span>
+<div class="w-full max-w-7xl mx-auto px-4 py-6">
+
+  <h3 class="mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-100">Overview</h3>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Recent Expense -->
+    <div class="rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 p-6 shadow-md text-gray-900 dark:text-gray-100">
+      <h5 class="text-lg font-semibold mb-1">Recent Expense</h5>
+      <p class="text-sm mb-2">Recently created for the current month.</p>
+      <span class="font-bold">{{ expense.amount }}</span> | 
+      <span>{{ expense.created_at }}</span>
     </div>
-    <!-- Expenses summary (perhaps the sum(total) amount of all expenses) -->
-    <div class="rounded-md bg-gradient-to-br from-green-400 to-emerald-600 p-6 text-gray-900 shadow-md dark:text-gray-100 summary">
-      <h5 class="summary-title">Recent Budget Entry</h5>
-      <p class="summary-desc">
-        Recently entered Budget for the current month.
-      </p>
-      <span class="fw-bold amount-summary">{{budget.budget_limit}}</span> | <span class="date_summary">{{budget.month}}/{{budget.year}}</span>
+
+    <!-- Recent Budget Entry -->
+    <div class="rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 p-6 shadow-md text-gray-900 dark:text-gray-100">
+      <h5 class="text-lg font-semibold mb-1">Recent Budget Entry</h5>
+      <p class="text-sm mb-2">Recently entered Budget for the current month.</p>
+      <span class="font-bold">{{ budget.budget_limit }}</span> | 
+      <span>{{ budget.month }}/{{ budget.year }}</span>
     </div>
-    <!-- Sum of amount spent on spendings (Expenses maybe) -->
-     <!-- OR Remaining amount -->
-    <div class="rounded-md bg-gradient-to-br from-green-400 to-emerald-600 p-6 text-gray-900 shadow-md dark:text-gray-100 summary">
-      <h5 class="summary-title">Top Expense</h5>
-      <p class="summary-desc">
-        Top Expense by category, most spent on.
-      </p>
-      <span class="fw-bold amount-summary">{{top_category.total_spent}}</span> | <span class="date_summary">{{top_category.name}}</span>
+
+    <!-- Top Expense -->
+    <div class="rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 p-6 shadow-md text-gray-900 dark:text-gray-100">
+      <h5 class="text-lg font-semibold mb-1">Top Expense</h5>
+      <p class="text-sm mb-2">Top Expense by category, most spent on.</p>
+      <span class="font-bold">{{ top_category.total_spent }}</span> | 
+      <span>{{ top_category.name }}</span>
     </div>
+
   </div>
 
   <!-- Bar Chart -->
-  <div class="mt-5 bar-chart-wrapper">
-    <canvas id="line-chart" width="800" height="350"></canvas>
+  <div class="mt-8 bg-white dark:bg-gray-800 p-4 shadow-md rounded-lg">
+    <canvas id="line-chart" class="w-full h-80"></canvas>
   </div>
+
 </div>
-  
 
-  <!-- SCRIPT -->
-
-  <script>
-    $(document).ready(function() {
-      $.ajax({
-        url: "/api/chart-data",
-        type: "GET",
-        dataType: "json",
-        success: function(data){
-          var lineChart = document.getElementById("line-chart").getContext("2d");
-          // render the bar chart
-          new Chart(lineChart, {
-            type: 'line',
-            data: {
-              labels: data.keys || [],
-              datasets: [{
-                label: data.label || '',
-                data: data.values || [],
-                backgroundColor: data.colors || '#00ACC1',
-                borderColor: data.borderColors || '#00ACC1',
-                borderWidth: 1
-              }]
+<script>
+  $(document).ready(function() {
+    $.ajax({
+      url: "/api/chart-data",
+      type: "GET",
+      dataType: "json",
+      success: function(data){
+        const ctx = document.getElementById("line-chart").getContext("2d");
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.keys || [],
+            datasets: [{
+              label: data.label || '',
+              data: data.values || [],
+              backgroundColor: data.colors || '#00ACC1',
+              borderColor: data.borderColors || '#00ACC1',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: true },
+              title: { display: true, text: data.title || '' }
             },
-            // Chart.js options: configure responsiveness, plugins (legend and title), and y-axis scale
-            options: {
-              responsive: true,
-              plugins: {
-                legend: { display: true },
-                title: { display: true, text: data.title || '' }
-              },
-              scales: {
-                y: {
-                  beginAtZero: true
-                }
-              }
-            }
-          });
-        },
-        error: function(error) {
-          console.error("Error fetching chart data:", error);
-        }
-      });
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+      },
+      error: function(error) {
+        console.error("Error fetching chart data:", error);
+      }
     });
-  </script>
-
-
-
+  });
+</script>
 {% endblock %}

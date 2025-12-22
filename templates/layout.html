@@ -17,7 +17,7 @@
         <title>Expense Tracker | {% block title %}{% endblock %}</title>
     </head>
 
-    <body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+    <body class="min-h-screen light:bg-gray-50 light:text-gray-900 dark:bg-gray-900 dark:text-gray-100">
 
         <!-- ================= NAV ================= -->
         <nav class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
@@ -43,7 +43,7 @@
 
                     <!-- Desktop -->
                     <div class="hidden md:flex items-center space-x-8">
-                        {% if session["user_id"] %}
+                        {% if session.get("user_id") %}
                             <div class="flex space-x-6 text-sm font-medium">
                                 <a href="/expenses" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Expenses</a>
                                 <a href="/budgeting" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Budgeting</a>
