@@ -1,11 +1,19 @@
-/*@import "bootstrap";*/
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-html {
-  margin: 0;
-  padding: 0;
+@layer components {
+  .nav-link {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-500;
+  }
+
+  .mobile-nav-link {
+    @apply block rounded-md px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800;
+  }
 }
-
 /* Light-Mode and Dark-Mode */
+
 :root {
   --bg-color: #F8F9FA;
   --text-color: rgba(0,0,0,.87);
@@ -16,8 +24,12 @@ html {
   --linear-gradient: linear-gradient(135deg, #38ef7d 10%, #11998e 90%);
 }
 
+html {
+  margin: 0;
+  padding: 0;
+}
+
 html.dark-mode {
-  --bg-color: #1c2023;
   --text-color: rgba(255,255,255,.87);
   --navbar-bg: #2b3035;
   --navbar-text: rgba(255, 255, 255, 0.55);
@@ -27,7 +39,6 @@ html.dark-mode {
 }
 
 body {
-  background: var(--bg-color);
   color: var(--text-color);
 }
 
@@ -597,3 +608,18 @@ select.form-select {
     padding: 12px 0;
   }
 }
+
+
+/* <nav class="border-none flex flex-wrap items-center justify-between p-4 md:flex-nowrap md:items-center md:justify-between">
+            <div class="container mx-auto flex flex-wrap items-center justify-between">
+                <a href="/" class="flex items-center text-black font-semibold">
+                <span class="text-green-500 mx-1">Expense</span>
+                <span class="text-black">Tracker</span>
+                </a>
+                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="md:hidden focus:outline-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+                <span class="inline-block w-6 h-6"></span> <!-- Placeholder for toggler icon -->
+                </button>
+            </div>
+        <div class="hidden w-full md:flex md:w-auto" id="navbar">
+            <!-- Navbar links go here -->
+        </div> */
