@@ -4,6 +4,17 @@ export const content = [
   './static/**/*.js',
 ];
 export const theme = {
-  extend: {},
+  extend: {
+    colors: {
+      primary: {
+        light: '#6D28D9',
+        DEFAULT: '#5B21B6',
+        dark: '#4C1D95',
+      },
+    }
+  },
 };
-export const plugins = [];
+export const plugins = [
+  tailwindcss/forms,
+  tailwindcss/typography,
+];
