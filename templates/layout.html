@@ -1,116 +1,115 @@
 {% from "macros/svgs.html" import moon, sun %}
-
 <!DOCTYPE html>
-
-<html lang="en" class="{{ 'dark-mode' if session.get('theme') == 'dark' }}" data-bs-theme="{{ theme }}" >
+<html lang="en" class="{{ 'dark' if theme == 'dark' else '' }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, width=device-width">
-        <script type="text/javascript" charset="utf-8" src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Tailwind CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.3.5/css/dataTables.dataTables.min.css" />
+        <script type="text/javascript" charset="utf-8" src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script type="text/javascript" charset="utf-8" src="//cdn.datatables.net/2.3.5/js/dataTables.min.js"></script>
-        <link rel="stylesheet" href="{{url_for('static',filename='dist/output.css')}}">
+
+        <!-- Chart.js (still valid) -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
+
         <title>Expense Tracker | {% block title %}{% endblock %}</title>
     </head>
 
-    <body>
-        <nav class="w-full border-b border-gray-200 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
+    <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
 
-                <!-- Brand -->
-                <a href="/" class="flex items-center text-lg font-semibold">
-                    <span class="text-green-500 mr-1">Expense</span>
-                    <span class="text-gray-900 dark:text-white">Tracker</span>
-                </a>
+        <!-- ================= NAV ================= -->
+        <nav class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
 
-                <!-- Mobile menu button -->
-                <button
-                    type="button"
-                    class="inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 md:hidden"
-                    aria-controls="mobile-menu"
-                    aria-expanded="false"
-                    onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
-                >
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+                    <!-- Brand -->
+                    <a href="/" class="flex items-center text-lg font-semibold">
+                        <span class="text-green-500 mr-1">Expense</span>
+                        <span>Tracker</span>
+                    </a>
 
-                <!-- Desktop menu -->
-                <div class="hidden md:flex md:items-center md:space-x-8">
-                    {% if session["user_id"] %}
-                        <div class="flex space-x-6">
-                            <a href="/expenses" class="nav-link">Expenses</a>
-                            <a href="/budgeting" class="nav-link">Budgeting</a>
-                            <a href="/reports" class="nav-link">Reports</a>
-                            <a href="/profile" class="nav-link">Profilee</a>
-                        </div>
+                    <!-- Mobile button -->
+                    <button
+                        class="md:hidden rounded-md p-2 text-gray-500 hover:bg-gray-100
+                            dark:hover:bg-gray-700 focus:ring-2 focus:ring-green-500"
+                        onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
 
-                        <div class="flex items-center space-x-4">
-                            <a href="{{ url_for('toggle_theme') }}" class="text-gray-600 dark:text-gray-300 hover:text-green-500">
-                                {% if theme == "dark" %}
-                                    {{ sun("h-5 w-5") }}
-                                {% else %}
-                                    {{ moon("h-5 w-5") }}
-                                {% endif %}
-                            </a>
+                    <!-- Desktop -->
+                    <div class="hidden md:flex items-center space-x-8">
+                        {% if session["user_id"] %}
+                            <div class="flex space-x-6 text-sm font-medium">
+                                <a href="/expenses" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Expenses</a>
+                                <a href="/budgeting" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Budgeting</a>
+                                <a href="/reports" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Reports</a>
+                                <a href="/profile" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Profile</a>
+                            </div>
 
-                            <a href="/logout" class="nav-link">Log Out</a>
-                        </div>
-                    {% else %}
-                        <div class="flex space-x-6">
-                            <a href="/register" class="nav-link">Sign up</a>
-                            <a href="/login" class="nav-link">Log In</a>
-                        </div>
-                    {% endif %}
+                            <div class="flex items-center space-x-4">
+                                <a href="{{ url_for('toggle_theme') }}"
+                                class="text-gray-500 hover:text-green-500 dark:text-gray-300">
+                                    {% if theme == "dark" %}
+                                        {{ sun("h-5 w-5") }}
+                                    {% else %}
+                                        {{ moon("h-5 w-5") }}
+                                    {% endif %}
+                                </a>
+                                <a href="/logout" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Log out</a>
+                            </div>
+                        {% else %}
+                            <div class="flex space-x-6 text-sm font-medium">
+                                <a href="/login" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Log in</a>
+                                <a href="/register" class="text-sm font-medium text-gray-700 hover:text-green-500 dark:text-gray-300 dark:hover:text-green-400">Sign up</a>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
-            {% if session["user_id"] %}
-                <a href="/expenses" class="mobile-nav-link">Expenses</a>
-                <a href="/budgeting" class="mobile-nav-link">Budgeting</a>
-                <a href="/reports" class="mobile-nav-link">Reports</a>
-                <a href="/profile" class="mobile-nav-link">Profile</a>
+            <!-- Mobile -->
+            <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+                {% if session["user_id"] %}
+                    <a href="/expenses" class="block px-3 py-2 rounded text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Expenses</a>
+                    <a href="/budgeting" class="block px-3 py-2 rounded text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Budgeting</a>
+                    <a href="/reports" cclass="block px-3 py-2 rounded text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Reports</a>
+                    <a href="/profile" cclass="block px-3 py-2 rounded text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Profile</a>
+                    <a href="{{ url_for('toggle_theme') }}" class="block px-3 py-2 rounded text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                        Toggle Theme
+                    </a>
+                    <a href="/logout" class="block rounded px-3 py-2 text-red-500">Log out</a>
+                {% else %}
+                    <a href="/login" class="block px-3 py-2 rounded text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Log in</a>
+                    <a href="/register" class="block px-3 py-2 rounded text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Sign up</a>
+                {% endif %}
+            </div>
+        </nav>
 
-                <a href="{{ url_for('toggle_theme') }}" class="mobile-nav-link">
-                    {% if theme == "dark" %}
-                        {{ sun("h-5 w-5 inline") }}
-                    {% else %}
-                        {{ moon("h-5 w-5 inline") }}
-                    {% endif %}
-                    Toggle Theme
-                </a>
-
-                <a href="/logout" class="mobile-nav-link">Log Out</a>
-            {% else %}
-                <a href="/register" class="mobile-nav-link">Sign up</a>
-                <a href="/login" class="mobile-nav-link">Log In</a>
-            {% endif %}
-        </div>
-    </nav>
-
-
+       <!-- ================= FLASH ================= -->
         {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary mb-0 text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
-                </div>
-            </header>
+        <div class="max-w-7xl mx-auto px-4 mt-4">
+            <div class="rounded-md bg-green-50 text-green-800 p-4
+                        dark:bg-green-900 dark:text-green-200">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+        </div>
         {% endif %}
 
-        <main class="container py-5 text-center grey-50">
+        <!-- ================= MAIN CONTENT ================= -->
+        <main class="max-w-7xl mx-auto px-4 py-8">
             {% block main %}{% endblock %}
         </main>
 
-        <footer class="mb-5">
+        <footer class="py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            © {{ now.year }} Expense Tracker
         </footer>
+
+        <script type="text/javascript"></script>
+
     </body>
 </html>
-
