@@ -48,12 +48,12 @@ with app.app_context():
 #------------------------
 
 
-
 # Dashboard/Home route
 # Views the Overall expense tracking, spending,
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
+  now = datetime.now()
   # Get user id
   user_id = session.get("user_id") 
 
@@ -98,7 +98,7 @@ def index():
     return redirect("/")
   else:
     # Query charts and render charts --> Entire Overall user expense 
-    return render_template("index.html", theme=theme, expense=recent_expense, budget=recent_budget, top_category=top_category)
+    return render_template("index.html", theme=theme, expense=recent_expense, budget=recent_budget, top_category=top_category, now=now)
 
 @app.route("/api/chart-data")
 @login_required
@@ -667,6 +667,11 @@ def logout():
   session.clear()
   # redirect to login page
   return render_template("login.html")
+
+@app.context_processor
+def inject_now():
+  return {"now": datetime.utcnow()}
+
 
 
 # Always validate main
