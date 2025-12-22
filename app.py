@@ -648,7 +648,7 @@ def login():
   # -------------------------------------------
 #  Theme control
 # Dark mode light mode features
-@app.route("/toggle-theme")
+@app.route("/toggle_theme")
 def toggle_theme():
   current_theme = session.get("theme", "light")
   new_theme = "dark" if current_theme == "light" else "light"
