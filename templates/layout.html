@@ -13,45 +13,91 @@
         <script type="text/javascript" charset="utf-8" src="//cdn.datatables.net/2.3.5/js/dataTables.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link href="/static/css/styles.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{url_for('static',filename='dist/output.css')}}">
         <title>Expense Tracker | {% block title %}{% endblock %}</title>
     </head>
 
     <body>
-        <nav class="border-none navbar navbar-expand-md">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/"><span class="green mx-1">Expense</span><span class="black">Tracker</span></a>
-                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
-                    <span class="navbar-toggler-icon"></span>
+        <nav class="w-full border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+
+                <!-- Brand -->
+                <a href="/" class="flex items-center text-lg font-semibold">
+                    <span class="text-green-500 mr-1">Expense</span>
+                    <span class="text-gray-900 dark:text-white">Tracker</span>
+                </a>
+
+                <!-- Mobile menu button -->
+                <button
+                    type="button"
+                    class="inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 md:hidden"
+                    aria-controls="mobile-menu"
+                    aria-expanded="false"
+                    onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                >
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
                 </button>
-                <div class="collapse navbar-collapse" id="navbar">
+
+                <!-- Desktop menu -->
+                <div class="hidden md:flex md:items-center md:space-x-8">
                     {% if session["user_id"] %}
-                        <ul class="navbar-nav me-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/expenses">Expenses</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/budgeting">Budgeting</a></li> 
-                            <li class="nav-item"><a class="nav-link" href="/reports">Reports</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-                        </ul>
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <a href="{{ url_for('toggle_theme') }}" class="nav-link theme">
-                                <span class="nav-item toggler">
-                                    {% if theme == "dark" %}
-                                        {{ sun("nav__icon") }}
-                                    {% else %}
-                                        {{ moon("nav__icon") }}
-                                    {% endif %}
-                                </span>
+                        <div class="flex space-x-6">
+                            <a href="/expenses" class="nav-link">Expenses</a>
+                            <a href="/budgeting" class="nav-link">Budgeting</a>
+                            <a href="/reports" class="nav-link">Reports</a>
+                            <a href="/profile" class="nav-link">Profile</a>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <a href="{{ url_for('toggle_theme') }}" class="text-gray-600 dark:text-gray-300 hover:text-green-500">
+                                {% if theme == "dark" %}
+                                    {{ sun("h-5 w-5") }}
+                                {% else %}
+                                    {{ moon("h-5 w-5") }}
+                                {% endif %}
                             </a>
-                            <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                        </ul>
+
+                            <a href="/logout" class="nav-link">Log Out</a>
+                        </div>
                     {% else %}
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/register">Sign up</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                        </ul>
+                        <div class="flex space-x-6">
+                            <a href="/register" class="nav-link">Sign up</a>
+                            <a href="/login" class="nav-link">Log In</a>
+                        </div>
                     {% endif %}
                 </div>
             </div>
-        </nav>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+            {% if session["user_id"] %}
+                <a href="/expenses" class="mobile-nav-link">Expenses</a>
+                <a href="/budgeting" class="mobile-nav-link">Budgeting</a>
+                <a href="/reports" class="mobile-nav-link">Reports</a>
+                <a href="/profile" class="mobile-nav-link">Profile</a>
+
+                <a href="{{ url_for('toggle_theme') }}" class="mobile-nav-link">
+                    {% if theme == "dark" %}
+                        {{ sun("h-5 w-5 inline") }}
+                    {% else %}
+                        {{ moon("h-5 w-5 inline") }}
+                    {% endif %}
+                    Toggle Theme
+                </a>
+
+                <a href="/logout" class="mobile-nav-link">Log Out</a>
+            {% else %}
+                <a href="/register" class="mobile-nav-link">Sign up</a>
+                <a href="/login" class="mobile-nav-link">Log In</a>
+            {% endif %}
+        </div>
+    </nav>
+
 
         {% if get_flashed_messages() %}
             <header>
@@ -61,7 +107,7 @@
             </header>
         {% endif %}
 
-        <main class="container py-5 text-center">
+        <main class="container py-5 text-center grey-50">
             {% block main %}{% endblock %}
         </main>
 
